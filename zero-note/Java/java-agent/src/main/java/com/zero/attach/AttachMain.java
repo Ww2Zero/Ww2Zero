@@ -11,7 +11,7 @@ public class AttachMain {
         // 获取运行中的JVM列表
         List<VirtualMachineDescriptor> vmList = VirtualMachine.list();
         // 需要agent的jar包路径
-        String agentJar = "target/zero-java-agent.jar";
+        String agentJar = "target/zero-java-agent-jar-with-dependencies.jar";
         for (VirtualMachineDescriptor vmd : vmList) {
             // 找到测试的JVM
             if (vmd.displayName().endsWith("WorkMain")) {

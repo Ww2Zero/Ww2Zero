@@ -1,5 +1,11 @@
 package com.zero.agent;
 
+import com.zero.agent.asm.ZeroClassTransformer;
+import com.zero.agent.buddy.TimeListener;
+import com.zero.agent.buddy.TimeTransformer;
+import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.matcher.ElementMatchers;
+
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
@@ -12,11 +18,11 @@ public class AgentMain {
     }
 
     public static void agentmain(String args, Instrumentation inst) {
-        agent1(args, inst);
+        agent2(args, inst);
     }
 
     private static void agent1(String args, Instrumentation inst) {
-        System.out.println("Attach Agent is running");
+        System.out.println("Attach asm Agent is running");
         inst.addTransformer(new ZeroClassTransformer());
     }
 
@@ -35,6 +41,18 @@ public class AgentMain {
                 return classfileBuffer;
             }
         });
+
+    }
+
+    private static void agent2(String args, Instrumentation inst) {
+        System.out.println("Attach buddy Agent is running");
+
+        new AgentBuilder
+                .Default()
+                .type(ElementMatchers.nameStartsWith("com.zero"))// 指定需要拦截的类
+                .transform(new TimeTransformer())
+                .with(new TimeListener())
+                .installOn(inst);
 
     }
 }
