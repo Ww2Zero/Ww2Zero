@@ -15,11 +15,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.12.1.GA</version>
-        </dependency>
-        <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
             <version>7.1</version>
@@ -29,27 +24,29 @@
             <artifactId>asm-commons</artifactId>
             <version>7.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>1.8.0</version>
+            <scope>system</scope>
+            <systemPath>${java.home}/../lib/tools.jar</systemPath>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>zero-java-agent</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <source>6</source>
-                    <target>6</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                     <archive>
+                        <manifest>
+                            <Main-Class>com.zero.work.WorkMain</Main-Class>
+                        </manifest>
                         <manifestEntries>
                             <Main-Class>com.zero.work.WorkMain</Main-Class>
                             <Agent-Class>com.zero.agent.AgentMain</Agent-Class>
@@ -59,8 +56,18 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
+
     </build>
 
 

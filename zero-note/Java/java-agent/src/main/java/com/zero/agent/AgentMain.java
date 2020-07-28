@@ -11,9 +11,17 @@ public class AgentMain {
         agent0(args, inst);
     }
 
-    public static void agent0(String args, Instrumentation inst) {
-        System.out.println("Agent is running");
+    public static void agentmain(String args, Instrumentation inst) {
+        agent1(args, inst);
+    }
 
+    private static void agent1(String args, Instrumentation inst) {
+        System.out.println("Attach Agent is running");
+        inst.addTransformer(new ZeroClassTransformer());
+    }
+
+    public static void agent0(String args, Instrumentation inst) {
+        System.out.println("Pre Agent is running");
         inst.addTransformer(new ClassFileTransformer() {
             @Override
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
@@ -27,5 +35,6 @@ public class AgentMain {
                 return classfileBuffer;
             }
         });
+
     }
 }
