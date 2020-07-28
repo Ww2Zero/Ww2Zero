@@ -1,1 +1,2 @@
-java -jar -javaagent:target/zero-java-agent.jar target/zero-java-agent.jar 
+#!/bin/bash
+java -jar -javaagent:target/zero-java-agent.jar target/zero-java-agent.jar
