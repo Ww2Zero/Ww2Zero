@@ -14,10 +14,14 @@ import java.security.ProtectionDomain;
 public class AgentMain {
 
     public static void premain(String args, Instrumentation inst) {
-        agent0(args, inst);
+//        agent0(args, inst);
+//        agent1(args, inst);
+        agent2(args, inst);
     }
 
     public static void agentmain(String args, Instrumentation inst) {
+        agent0(args, inst);
+        agent1(args, inst);
         agent2(args, inst);
     }
 
